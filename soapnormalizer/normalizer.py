@@ -18,7 +18,7 @@
 
 import numpy as np
 
-from nomad.datamodel.metainfo import runschema
+import runschema
 from nomad.normalizing.normalizer import SystemBasedNormalizer
 
 
