@@ -50,6 +50,8 @@ class SoapNormalizer(SystemBasedNormalizer):
 
         soap = runschema.system.SOAP()
         atoms = system.atoms.to_ase(raise_exp=True)
+        if atoms is None:
+            return False
 
         # setup params to be used by quippy
         params, _ = dataset_to_params(atoms)
