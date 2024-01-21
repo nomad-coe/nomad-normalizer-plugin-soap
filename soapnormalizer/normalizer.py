@@ -61,14 +61,14 @@ class SoapNormalizer(SystemBasedNormalizer):
         soap.r_cut = np.float64(params["soap cutoff"])
         soap.atom_sigma = np.float64(params["atom_sigma"])
 
-        # regular soap
-        quippy_str = params_to_quippy_str(params)
-        desc = descriptors.Descriptor(quippy_str)
-        output = desc.calc(atoms)
-        ps_array_list = [flat_to_array(p, N, L, S) for p in output["data"]]
-        soap.soap = np.array(
-            [np.reshape(d, (S, S, -1)) for d in ps_array_list]
-        )
+        # # regular soap
+        # quippy_str = params_to_quippy_str(params)
+        # desc = descriptors.Descriptor(quippy_str)
+        # output = desc.calc(atoms)
+        # ps_array_list = [flat_to_array(p, N, L, S) for p in output["data"]]
+        # soap.soap = np.array(
+        #     [np.reshape(d, (S, S, -1)) for d in ps_array_list]
+        # )
 
         # TODO causes memory overflow
         # # global soap
