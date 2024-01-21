@@ -17,6 +17,10 @@
 #
 
 import numpy as np
+try:
+    from quippy import descriptors
+except ImportError:
+    descriptors = None
 
 import runschema
 from nomad.normalizing.normalizer import SystemBasedNormalizer
@@ -24,10 +28,6 @@ from nomad.normalizing.normalizer import SystemBasedNormalizer
 
 class SoapNormalizer(SystemBasedNormalizer):
     def normalize_system(self, system, is_representative):
-        try:
-            from quippy import descriptors
-        except ImportError:
-            descriptors = None
 
         # Only store SOAP for representative system to start with
         if not is_representative:
@@ -70,25 +70,26 @@ class SoapNormalizer(SystemBasedNormalizer):
             [np.reshape(d, (S, S, -1)) for d in ps_array_list]
         )
 
-        # global soap
-        quippy_str += " average=T"
-        desc = descriptors.Descriptor(quippy_str)
-        output = desc.calc(atoms)
-        A = flat_to_array(output["data"][0], N, L, S)
-        soap.global_soap = np.reshape(A, (S, S, -1))
+        # TODO causes memory overflow
+        # # global soap
+        # quippy_str += " average=T"
+        # desc = descriptors.Descriptor(quippy_str)
+        # output = desc.calc(atoms)
+        # A = flat_to_array(output["data"][0], N, L, S)
+        # soap.global_soap = np.reshape(A, (S, S, -1))
 
-        # tensor reduced soap
-        quippy_str = params_to_quippy_str(params)
-        quippy_str += "sym_mix=F Z_mix=T R_mix=T K=50 coupling=F"
-        desc = descriptors.Descriptor(quippy_str)
-        output = desc.calc(atoms)
-        soap.tr_soap = output["data"]
+        # # tensor reduced soap
+        # quippy_str = params_to_quippy_str(params)
+        # quippy_str += "sym_mix=F Z_mix=T R_mix=T K=50 coupling=F"
+        # desc = descriptors.Descriptor(quippy_str)
+        # output = desc.calc(atoms)
+        # soap.tr_soap = output["data"]
 
-        # gloabl tensor reduced soap
-        quippy_str += " average=T"
-        desc = descriptors.Descriptor(quippy_str)
-        output = desc.calc(atoms)
-        soap.global_tr_soap = output["data"][0]
+        # # gloabl tensor reduced soap
+        # quippy_str += " average=T"
+        # desc = descriptors.Descriptor(quippy_str)
+        # output = desc.calc(atoms)
+        # soap.global_tr_soap = output["data"][0]
 
         # add the soap descriptor to the system
         if not system.descriptors:
