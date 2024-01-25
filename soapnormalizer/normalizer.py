@@ -51,7 +51,9 @@ class SoapNormalizer(SystemBasedNormalizer):
                 "descriptors"
             ].sub_section.section_cls()
 
-        soap = system.descriptors.m_def.all_sub_sections["soap"].sub_section.section_cls
+        soap = system.descriptors.m_def.all_sub_sections[
+            "soap"
+        ].sub_section.section_cls()
         atoms = system.atoms.to_ase(raise_exp=True)
         if atoms is None:
             return False
