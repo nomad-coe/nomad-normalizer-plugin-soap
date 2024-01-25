@@ -19,6 +19,7 @@ import json
 
 from nomad.datamodel import EntryArchive
 from soapnormalizer import SoapNormalizer
+import runschema  # pylint: disable=unused-import
 
 
 def test_soap():
