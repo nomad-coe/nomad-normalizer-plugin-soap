@@ -15,15 +15,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import json
 
 from nomad.datamodel import EntryArchive
-from electronicparsers.vasp import VASPParser
 from soapnormalizer import SoapNormalizer
 
 
 def test_soap():
-    archive = EntryArchive()
-    VASPParser().parse('tests/data/vasp.xml', archive, None)
+    archive = EntryArchive.m_from_dict(json.load(open("tests/data/vasp.archive.json")))
     SoapNormalizer(archive, only_representatives=True).normalize()
 
     assert archive.run[-1].system[-1].descriptors.soap is not None

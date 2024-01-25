@@ -17,18 +17,17 @@
 #
 
 import numpy as np
+
 try:
     from quippy import descriptors
 except ImportError:
     descriptors = None
 
-import runschema
 from nomad.normalizing.normalizer import SystemBasedNormalizer
 
 
 class SoapNormalizer(SystemBasedNormalizer):
     def normalize_system(self, system, is_representative):
-
         # Only store SOAP for representative system to start with
         if not is_representative:
             return True
@@ -38,7 +37,7 @@ class SoapNormalizer(SystemBasedNormalizer):
             return False
 
         if not descriptors:
-            self.logger.warning('SOAP normalizer runs, but quippy is not installed.')
+            self.logger.warning("SOAP normalizer runs, but quippy is not installed.")
             return False
 
         # TODO compute descriptors for primitive system, need to discuss how to store this stuff.
@@ -47,8 +46,12 @@ class SoapNormalizer(SystemBasedNormalizer):
         # symmetry_analyzer = repr_symmetry.m_cache.get("symmetry_analyzer")
         # prim_atoms = symmetry_analyzer.get_primitive_system()
         # print("prim_atoms is", type(prim_atoms), prim_atoms)
+        if not system.descriptors:
+            system.descriptors = system.m_def.all_sub_sections[
+                "descriptors"
+            ].sub_section.section_cls()
 
-        soap = runschema.system.SOAP()
+        soap = system.descriptors.m_def.all_sub_sections["soap"].sub_section.section_cls
         atoms = system.atoms.to_ase(raise_exp=True)
         if atoms is None:
             return False
@@ -92,8 +95,6 @@ class SoapNormalizer(SystemBasedNormalizer):
         # soap.global_tr_soap = output["data"][0]
 
         # add the soap descriptor to the system
-        if not system.descriptors:
-            system.descriptors = runschema.system.Descriptors()
         system.descriptors.soap = soap
 
         return True
