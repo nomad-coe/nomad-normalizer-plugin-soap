@@ -37,7 +37,7 @@ class SoapNormalizer(SystemBasedNormalizer):
             return False
 
         if not descriptors:
-            self.logger.warning("SOAP normalizer runs, but quippy is not installed.")
+            self.logger.warning('SOAP normalizer runs, but quippy is not installed.')
             return False
 
         # TODO compute descriptors for primitive system, need to discuss how to store this stuff.
@@ -48,11 +48,11 @@ class SoapNormalizer(SystemBasedNormalizer):
         # print("prim_atoms is", type(prim_atoms), prim_atoms)
         if not system.descriptors:
             system.descriptors = system.m_def.all_sub_sections[
-                "descriptors"
+                'descriptors'
             ].sub_section.section_cls()
 
         soap = system.descriptors.m_def.all_sub_sections[
-            "soap"
+            'soap'
         ].sub_section.section_cls()
         atoms = system.atoms.to_ase(raise_exp=True)
         if atoms is None:
@@ -60,11 +60,11 @@ class SoapNormalizer(SystemBasedNormalizer):
 
         # setup params to be used by quippy
         params, _ = dataset_to_params(atoms)
-        N, S, L = params["n_max"], params["n_Z"], params["l_max"]
+        N, S, L = params['n_max'], params['n_Z'], params['l_max']
         soap.n_max = N
         soap.l_max = L
-        soap.r_cut = np.float64(params["soap cutoff"])
-        soap.atom_sigma = np.float64(params["atom_sigma"])
+        soap.r_cut = np.float64(params['soap cutoff'])
+        soap.atom_sigma = np.float64(params['atom_sigma'])
 
         # # regular soap
         # quippy_str = params_to_quippy_str(params)
@@ -103,9 +103,9 @@ class SoapNormalizer(SystemBasedNormalizer):
 
 
 def params_to_quippy_str(params):
-    qs = ""
+    qs = ''
     for key, val in params.items():
-        qs += str(key) + "=" + str(val) + " "
+        qs += str(key) + '=' + str(val) + ' '
     return qs
 
 
@@ -113,22 +113,22 @@ def dataset_to_params(atoms):
     """convert the dataset into params"""
     Zs = set(atoms.numbers)
     Zs = sorted(list(Zs), key=lambda x: x)
-    Zstr = "{"
+    Zstr = '{'
     for Z in Zs:
-        Zstr += str(Z) + " "
-    Zstr = Zstr[:-1] + "}"
+        Zstr += str(Z) + ' '
+    Zstr = Zstr[:-1] + '}'
 
     params = {}
-    params["n_Z"] = len(Zs)
-    params["n_species"] = len(Zs)
-    params["Z"] = Zstr
-    params["species_Z"] = Zstr
-    params["n_max"] = 8
-    params["l_max"] = 4
-    params["soap cutoff"] = 5
-    params["atom_sigma"] = 0.4
-    params["cutoff_transition_width"] = 0.5
-    params["central_weight"] = 1
+    params['n_Z'] = len(Zs)
+    params['n_species'] = len(Zs)
+    params['Z'] = Zstr
+    params['species_Z'] = Zstr
+    params['n_max'] = 8
+    params['l_max'] = 4
+    params['soap cutoff'] = 5
+    params['atom_sigma'] = 0.4
+    params['cutoff_transition_width'] = 0.5
+    params['central_weight'] = 1
     return params, Zs
 
 
