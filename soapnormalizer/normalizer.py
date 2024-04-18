@@ -23,11 +23,12 @@ try:
 except ImportError:
     descriptors = None
 
+from nomad.datamodel import EntryArchive
 from nomad.normalizing.normalizer import SystemBasedNormalizer
 
 
 class SoapNormalizer(SystemBasedNormalizer):
-    def normalize_system(self, system, is_representative):
+    def normalize_system(self, archive: EntryArchive, system, is_representative):
         # Only store SOAP for representative system to start with
         if not is_representative:
             return True
