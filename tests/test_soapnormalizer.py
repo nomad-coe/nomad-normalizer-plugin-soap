@@ -24,6 +24,6 @@ import runschema  # pylint: disable=unused-import
 
 def test_soap():
     archive = EntryArchive.m_from_dict(json.load(open('tests/data/vasp.archive.json')))
-    SoapNormalizer(archive, only_representatives=True).normalize()
+    SoapNormalizer(only_representatives=True).normalize(archive)
 
     assert archive.run[-1].system[-1].descriptors.soap is not None
