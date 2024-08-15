@@ -37,10 +37,6 @@ class SoapNormalizer(SystemBasedNormalizer):
         if system.atoms is None:
             return False
 
-        if not descriptors:
-            self.logger.warning('SOAP normalizer runs, but quippy is not installed.')
-            return False
-
         # TODO compute descriptors for primitive system, need to discuss how to store this stuff.
         # repr_symmetry = system.symmetry[0]
         # print(repr_symmetry)
@@ -66,6 +62,10 @@ class SoapNormalizer(SystemBasedNormalizer):
         soap.l_max = L
         soap.r_cut = np.float64(params['soap cutoff'])
         soap.atom_sigma = np.float64(params['atom_sigma'])
+
+        if not descriptors:
+            # self.logger.warning('SOAP normalizer runs, but quippy is not installed.')
+            return False
 
         # # regular soap
         # quippy_str = params_to_quippy_str(params)
