@@ -63,6 +63,7 @@ class SoapNormalizer(SystemBasedNormalizer):
         soap.r_cut = np.float64(params['soap cutoff'])
         soap.atom_sigma = np.float64(params['atom_sigma'])
 
+        system.descriptors.soap = soap
         if not descriptors:
             # self.logger.warning('SOAP normalizer runs, but quippy is not installed.')
             return False
