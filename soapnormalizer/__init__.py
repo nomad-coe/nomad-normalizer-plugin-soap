@@ -15,4 +15,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from .normalizer import SoapNormalizer
+from nomad.config.models.plugins import NormalizerEntryPoint
+
+
+class SoapNormalizerEntryPoint(NormalizerEntryPoint):
+    def load(self):
+        import soapnormalizer
+        from .normalizer import SoapNormalizer
+
+        soapnormalizer.SoapNormalizer = SoapNormalizer
+
+        return SoapNormalizer(**self.dict())
+
+
+soap_normalizer_entry_point = SoapNormalizerEntryPoint(
+    name="SoapNormalizer",
+    description="Normalizer for the SOAP data.",
+)

@@ -73,5 +73,5 @@ line-ending = "auto"
 [tool.setuptools.packages.find]
 include = ["soapnormalizer*"]
 
-[tool.setuptools.package-data]
-soapnormalizer = ["*/nomad_plugin.yaml"]
+[project.entry-points.'nomad.plugin']
+soapnormalizer = "soapnormalizer:soap_normalizer_entry_point"
