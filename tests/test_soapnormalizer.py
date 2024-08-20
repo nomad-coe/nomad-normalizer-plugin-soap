@@ -17,13 +17,14 @@
 #
 import json
 
-from nomad.datamodel import EntryArchive
-from soapnormalizer import SoapNormalizer
-import runschema  # pylint: disable=unused-import
+from nomad.normalizing import normalizers
 
 
 def test_soap():
+    from nomad.datamodel import EntryArchive
+
     archive = EntryArchive.m_from_dict(json.load(open('tests/data/vasp.archive.json')))
-    SoapNormalizer(only_representatives=True).normalize(archive)
+    for normalizer in normalizers:
+        normalizer(archive).normalize()
 
     assert archive.run[-1].system[-1].descriptors.soap is not None
