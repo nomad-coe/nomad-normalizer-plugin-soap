@@ -17,12 +17,12 @@
 #
 import json
 
-from nomad.datamodel import EntryArchive
-import runschema  # pylint: disable=unused-import
 from nomad.normalizing import normalizers
 
 
 def test_soap():
+    from nomad.datamodel import EntryArchive
+
     archive = EntryArchive.m_from_dict(json.load(open('tests/data/vasp.archive.json')))
     for normalizer in normalizers:
         normalizer(archive).normalize()
