@@ -21,7 +21,7 @@ from nomad.normalizing import normalizers
 
 
 def test_soap():
-    from nomad.datamodel import EntryArchive
+    from nomad.datamodel import EntryArchive  # noqa
 
     archive = EntryArchive.m_from_dict(json.load(open('tests/data/vasp.archive.json')))
     for normalizer in normalizers:
