@@ -20,8 +20,8 @@ from nomad.config.models.plugins import NormalizerEntryPoint
 
 class SoapNormalizerEntryPoint(NormalizerEntryPoint):
     def load(self):
-        import soapnormalizer
-        from .normalizer import SoapNormalizer
+        import soapnormalizer  # noqa
+        from .normalizer import SoapNormalizer  # noqa
 
         soapnormalizer.SoapNormalizer = SoapNormalizer
 
